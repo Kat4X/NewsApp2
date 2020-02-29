@@ -22,6 +22,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
@@ -31,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/news_item"
-            android:padding="16dp"/>
+            android:paddingHorizontal="16dp"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -1,25 +1,29 @@
 package com.kat4x.alyxnews.ui.home
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.kat4x.alyxnews.R
-import com.kat4x.alyxnews.models.NewsItem
+import com.kat4x.alyxnews.models.innerUse.ItemNews
+import kotlinx.android.synthetic.main.news_item.view.*
 
 class NewsListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NewsItem>() {
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemNews>() {
 
-        override fun areItemsTheSame(oldItem: NewsItem, newItem: NewsItem): Boolean {
-            TODO("not implemented")
+        override fun areItemsTheSame(oldItem: ItemNews, newItem: ItemNews): Boolean {
+            return oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(oldItem: NewsItem, newItem: NewsItem): Boolean {
-            TODO("not implemented")
+        override fun areContentsTheSame(oldItem: ItemNews, newItem: ItemNews): Boolean {
+            return oldItem == newItem
         }
 
     }
@@ -50,7 +54,7 @@ class NewsListAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<NewsItem>) {
+    fun submitList(list: List<ItemNews>) {
         differ.submitList(list)
     }
 
@@ -60,16 +64,31 @@ class NewsListAdapter(private val interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: NewsItem) = with(itemView) {
+        @SuppressLint("SetTextI18n")
+        fun bind(item: ItemNews) = with(itemView) {
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
-//            TODO("bind view with data")
+            itemView.news_title.text = item.title
+            itemView.news_descriptions.text = "${item.description}..."
+            itemView.news_author.text = item.author
+            itemView.news_time.text = item.publishedAt
+
+            if (item.urlToImage != null) {
+                val requestOptions = RequestOptions()
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+
+                Glide.with(itemView.context)
+                    .applyDefaultRequestOptions(requestOptions)
+                    .load(item.urlToImage)
+                    .into(itemView.news_image)
+            }
         }
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: NewsItem)
+        fun onItemSelected(position: Int, item: ItemNews)
     }
 }
