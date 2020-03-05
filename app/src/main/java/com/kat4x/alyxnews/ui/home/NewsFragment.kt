@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kat4x.alyxnews.R
 import com.kat4x.alyxnews.TopSpacingDecoration
@@ -18,6 +21,7 @@ class NewsFragment : Fragment(),
 
     private lateinit var viewModel: NewsViewModel
     private lateinit var newsListAdapter: NewsListAdapter
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +37,7 @@ class NewsFragment : Fragment(),
         activity?.let {
             viewModel =
                 ViewModelProvider(it).get(NewsViewModel::class.java)
+
         } ?: throw Exception("Invalid activity")
 
         subscribeObserver()
@@ -65,7 +70,8 @@ class NewsFragment : Fragment(),
     }
 
     override fun onItemSelected(position: Int, item: ItemNews) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.link.value = item.url
+        findNavController().navigate(R.id.action_nav_news_to_linkFragment, null)
     }
 
     companion object {

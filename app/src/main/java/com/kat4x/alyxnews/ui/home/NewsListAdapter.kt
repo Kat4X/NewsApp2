@@ -1,17 +1,19 @@
 package com.kat4x.alyxnews.ui.home
 
 import android.annotation.SuppressLint
-import androidx.recyclerview.widget.RecyclerView
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import androidx.recyclerview.widget.RecyclerView
 import com.kat4x.alyxnews.R
 import com.kat4x.alyxnews.models.innerUse.ItemNews
 import kotlinx.android.synthetic.main.news_item.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewsListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -64,26 +66,32 @@ class NewsListAdapter(private val interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         fun bind(item: ItemNews) = with(itemView) {
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
             itemView.news_title.text = item.title
-            itemView.news_descriptions.text = "${item.description}..."
-            itemView.news_author.text = item.author
-            itemView.news_time.text = item.publishedAt
+            if (item.description.isNotEmpty()) {
+                itemView.news_descriptions.text = "${item.description}..."
+            }
 
-            if (item.urlToImage != null) {
-                val requestOptions = RequestOptions()
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+            if (item.author != "null") {
+                itemView.news_author.visibility = View.VISIBLE
+                itemView.news_author.text = item.author
+            }
 
-                Glide.with(itemView.context)
-                    .applyDefaultRequestOptions(requestOptions)
-                    .load(item.urlToImage)
-                    .into(itemView.news_image)
+            val sdf = SimpleDateFormat("hh:mm")
+//                var date = sdf.parse("${item.publishedAt}")
+//            val da: Date = item.publishedAt!!
+//            Log.d("TEST TIME", sdf.format(item.publishedAt!!))
+//            Log.d("TEST TIME", "${da}")
+                itemView.news_time.text = sdf.format(item.publishedAt!!)
+
+            if (item.urlToImage!!.isNotEmpty()) {
+                val imageUri = Uri.parse(item.urlToImage)
+                itemView.news_image.setImageURI(imageUri, context!!)
             }
         }
     }

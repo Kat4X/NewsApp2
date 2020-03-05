@@ -8,7 +8,7 @@ import com.kat4x.alyxnews.models.network.ResponseNews
 class NewsRepository(
     private val webservice: Webservice
 ) : BaseRepository() {
-    suspend fun getNews(q: String, language: String): MutableList<ResponseNews.Article>? {
+    private suspend fun getNews(q: String, language: String): MutableList<ResponseNews.Article>? {
         return safeApiCall(
             call = {
                 webservice.fetchNewsAsync(q, language)
@@ -17,7 +17,8 @@ class NewsRepository(
         )?.articles!!.toMutableList()
     }
 
-    suspend fun getNewsItems(/*t: List<ResponseNews.Article>*/): MutableList<ItemNews>{
+    @Synchronized
+    suspend fun getNewsItems(): MutableList<ItemNews>{
         return TypeConverters.convertResponseToItem(getNews("technology", "ru")!!.toMutableList())
     }
 }

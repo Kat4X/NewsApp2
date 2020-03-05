@@ -3,6 +3,7 @@ package com.kat4x.alyxnews.models.network
 
 import com.google.gson.annotations.SerializedName
 import java.net.URI
+import java.util.*
 
 data class ResponseNews(
     @SerializedName("articles")
@@ -20,7 +21,7 @@ data class ResponseNews(
         @SerializedName("description")
         var description: String?,
         @SerializedName("publishedAt")
-        var publishedAt: String?,
+        var publishedAt: Date?,
         @SerializedName("source")
         var source: Source?,
         @SerializedName("title")

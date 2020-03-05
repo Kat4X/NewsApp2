@@ -1,12 +1,13 @@
 package com.kat4x.alyxnews.models.innerUse
 
 import java.net.URI
+import java.util.*
 
 data class ItemNews(
     var author: String = "",
     var content: String = "",
     var description: String = "",
-    var publishedAt: String = "",
+    var publishedAt: Date? = null,
     var source: Source = Source(),
     var title: String = "",
     var url: String? = null,

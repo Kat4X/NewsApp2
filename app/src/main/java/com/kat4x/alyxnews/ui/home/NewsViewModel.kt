@@ -1,5 +1,6 @@
 package com.kat4x.alyxnews.ui.home
 
+import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,19 +13,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class NewsViewModel(
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class NewsViewModel: ViewModel() {
 
-    var repository: NewsRepository = NewsRepository(NewsApiService.serviceApi)
-    //    val t = MutableLiveData<MutableList<ResponseNews.Article>>()
+    private var repository: NewsRepository = NewsRepository(NewsApiService.serviceApi)
     val newsList = MutableLiveData<MutableList<ItemNews>>()
     var isRefresh = MutableLiveData(false)
-
-    private val _text = MutableLiveData<String>().apply {
-
-    }
-    val text: LiveData<String> = _text
+    var link = MutableLiveData<String>()
 
     @WorkerThread
     fun getNews() {

@@ -3,6 +3,7 @@ package com.kat4x.alyxnews
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.facebook.drawee.backends.pipeline.Fresco
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,6 +14,8 @@ class App : Application() {
         super.onCreate()
 
         sp = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+
+        Fresco.initialize(this)
     }
 
     companion object {

@@ -20,8 +20,9 @@ class TypeConverters {
                 item.author = it.author.toString()
                 item.content = it.content.toString()
                 item.description = it.description.toString()
-                val sdf = SimpleDateFormat("dd-M-yyyy hh:mm")
-                item.publishedAt = it.publishedAt!!.format(sdf)
+//                val sdf = SimpleDateFormat("dd-M-yyyy hh:mm")
+//                item.publishedAt = it.publishedAt!!.format(sdf)
+                item.publishedAt = it.publishedAt!!
                 item.source.apply {
                     it.source
                 }
