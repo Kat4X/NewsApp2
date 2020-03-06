@@ -1,6 +1,7 @@
 package com.kat4x.alyxnews.ui.home
 
 import android.net.Uri
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,6 +29,20 @@ class NewsViewModel: ViewModel() {
                 isRefresh.postValue(false)
             }
         } catch (e: Exception) {
+            Log.e("NewsViewModel", "Fail with fetch data: ${e.message}")
+            isRefresh.postValue(false)
+        }
+    }
+
+    fun getTopNews() {
+        try {
+            CoroutineScope(IO).launch {
+                newsList.postValue(repository.getTopNewsItems())
+                isRefresh.postValue(false)
+            }
+        }
+        catch (e: Exception) {
+            Log.e("NewsViewModel", "Fail with fetch data: ${e.message}")
             isRefresh.postValue(false)
         }
     }

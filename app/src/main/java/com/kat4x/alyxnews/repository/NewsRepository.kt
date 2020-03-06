@@ -21,4 +21,18 @@ class NewsRepository(
     suspend fun getNewsItems(): MutableList<ItemNews>{
         return TypeConverters.convertResponseToItem(getNews("technology", "ru")!!.toMutableList())
     }
+
+    private suspend fun getTopNews(county: String, category: String): MutableList<ResponseNews.Article>? {
+        return safeApiCall(
+            call = {
+                webservice.fetchTopNews(county, category)
+            },
+            error = "Error: fetching news"
+        )?.articles!!.toMutableList()
+    }
+
+    @Synchronized
+    suspend fun getTopNewsItems(): MutableList<ItemNews>{
+        return TypeConverters.convertResponseToItem(getTopNews("ru", "business")!!.toMutableList())
+    }
 }

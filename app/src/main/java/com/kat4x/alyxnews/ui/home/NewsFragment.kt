@@ -47,7 +47,8 @@ class NewsFragment : Fragment(),
     private fun initUi() {
         viewModel.getNews()
         srl.setOnRefreshListener {
-            viewModel.getNews()
+//            viewModel.getNews()
+            viewModel.getTopNews()
             viewModel.isRefresh.value = true
         }
 

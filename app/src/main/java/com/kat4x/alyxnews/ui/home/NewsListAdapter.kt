@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kat4x.alyxnews.R
 import com.kat4x.alyxnews.models.innerUse.ItemNews
 import kotlinx.android.synthetic.main.news_item.view.*
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -82,12 +83,12 @@ class NewsListAdapter(private val interaction: Interaction? = null) :
                 itemView.news_author.text = item.author
             }
 
-            val sdf = SimpleDateFormat("hh:mm")
-//                var date = sdf.parse("${item.publishedAt}")
-//            val da: Date = item.publishedAt!!
-//            Log.d("TEST TIME", sdf.format(item.publishedAt!!))
-//            Log.d("TEST TIME", "${da}")
-                itemView.news_time.text = sdf.format(item.publishedAt!!)
+            val sdf = SimpleDateFormat("d MMMM hh:mm")
+//            val currDate = System.currentTimeMillis()
+//            val timeAgo = currDate - item.publishedAt!!.time
+//            Log.d("CAL", "${item.publishedAt!!} and ${sdf.format(currDate)} = $timeAgo")
+//            itemView.news_time.text = sdf.format(item.publishedAt!!)
+            itemView.news_time.text = sdf.format(item.publishedAt!!)
 
             if (item.urlToImage!!.isNotEmpty()) {
                 val imageUri = Uri.parse(item.urlToImage)
